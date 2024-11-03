@@ -1,17 +1,44 @@
-name: First Workflow
+#name: First Workflow
+
+#on:
+ # - push
+
+#jobs: 
+    #first_job: Jomacs-K8s
+        #runs-on: ubuntu-latest
+       # steps:
+      #      - name: Welcome Message
+     #         run: echo "Welcome to the World of CICD through GitHub Actions"
+
+    #        - name: List All Files including hidden
+   #           run: ls  -la
+
+  #          - name: Show Present Working Directory
+ #             run: pwd
+
+#              name: Node.js CI
 
 on:
-  - push
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-jobs: 
-    first_job: Jomacs-K8s
-        runs-on: ubuntu-latest
-        steps:
-            - name: Welcome Message
-              run: echo "Welcome to the World of CICD through GitHub Actions"
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-            - name: List All Files including hidden
-              run: ls  -la
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            - name: Show Present Working Directory
-              run: pwd
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
